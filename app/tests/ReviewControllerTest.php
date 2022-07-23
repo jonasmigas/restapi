@@ -5,6 +5,7 @@ namespace App\Tests;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReviewControllerTest extends TestCase
 {
@@ -12,8 +13,7 @@ class ReviewControllerTest extends TestCase
     {
         $client = new Client();
         $response = $client->get('http://localhost/api/reviews');
-        $this->assertEquals(200, $response->getStatusCode());
-        //var_dump($response->getBody()->getContents());
+        $this->assertJsonResponse('listReviews', $response, Response::HTTP_OK);
     }
 
     public function testSubmitReview()
@@ -27,7 +27,7 @@ class ReviewControllerTest extends TestCase
                     "user" => "1",
                     "company" => "1",
                     "culture" => "5",
-                    "management" => "10",
+                    "management" => "2",
                     "work_live_balance" => "5",
                     "career_development" => "5",
                     "pro" => "teste",
@@ -36,21 +36,38 @@ class ReviewControllerTest extends TestCase
                 ]
             ]
         );
-        $this->assertJsonResponse($response, 201);
-        //var_dump($response->getBody()->getContents());
+        $this->assertJsonResponse('submitReview', $response, Response::HTTP_CREATED);
     }
 
-    protected function assertJsonResponse($response, $statusCode = 200)
+    public function testHighLowRating()
     {
-        var_dump($response->getStatusCode());
+        $client = new Client();
+        $response = $client->post(
+            'http://localhost/api/submitreview',
+            [
+                RequestOptions::JSON => [
+                    "title" => "Another Review",
+                    "user" => "1",
+                    "company" => "1",
+                    "culture" => "5",
+                    "management" => "2",
+                    "work_live_balance" => "5",
+                    "career_development" => "5",
+                    "pro" => "teste",
+                    "contra" => "sem contras",
+                    "suggestions" => "teste"
+                ]
+            ]
+        );
+        $this->assertJsonResponse('submitReview', $response, Response::HTTP_CREATED);
+    }
+
+    protected function assertJsonResponse($endPoint, $response, $statusCode = 200)
+    {
+        var_dump($endPoint . ': status code: ' . $response->getStatusCode());
         $this->assertEquals(
             $statusCode,
             $response->getStatusCode(),
         );
-
-        // $this->assertTrue(
-        //     $response->getHeader('Content-Type'),
-        //     $response->headers
-        // );
     }
 }

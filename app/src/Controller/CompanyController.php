@@ -41,6 +41,9 @@ class CompanyController extends AbstractFOSRestController
         $repository = $this->doctrine->getRepository(Company::class);
         $companies = $repository->findall();
         $topCompanies = Company::getTopCompanies($companies);
-        return $this->handleView($this->view($topCompanies));
+        if ($topCompanies && sizeof($topCompanies) > 0)
+            return array('status' =>  Response::HTTP_OK, 'data' => $topCompanies);
+        else
+            return array('status' =>  Response::HTTP_OK, 'data' => ['msg' => 'No companies found']);
     }
 }

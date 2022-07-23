@@ -55,12 +55,15 @@ class ReviewController extends AbstractFOSRestController
             $em->flush();
 
             $companyId = $review->getCompany();
-            $company = $companyRepository->find($companyId);
-            $reviewsRepository = $this->doctrine->getRepository(Review::class);
-            $company->updateAvgRating($reviewsRepository);
-            $em->persist($company);
-            $em->flush();
-            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+            if ($companyId) {
+                $company = $companyRepository->find($companyId);
+                $reviewsRepository = $this->doctrine->getRepository(Review::class);
+                $company->updateAvgRating($reviewsRepository);
+                $em->persist($company);
+                $em->flush();
+                return array('status' =>  Response::HTTP_CREATED, 'data' => ['msg' => 'Review Created successfully']);
+            } else
+                return array('status' =>  Response::HTTP_CREATED, 'data' => ['msg' => 'Company not found']);
         }
         return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
     }
@@ -79,12 +82,12 @@ class ReviewController extends AbstractFOSRestController
             $highestLowRating = Review::getHighestLowestRatingReview($data['company_id'], $reviewRepository);
 
             if ($highestLowRating) {
-                return array('status' => true, 'data' => $highestLowRating);
+                return array('status' =>  Response::HTTP_OK, 'data' => $highestLowRating);
             } else {
-                return array('status' => false, 'data' => 'Company not found');
+                return array('status' => Response::HTTP_NO_CONTENT, 'data' => ['msg' => 'Company not found']);
             }
         } else
-            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_NO_CONTENT));
+            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_BAD_REQUEST));
     }
 
     /**
@@ -103,11 +106,11 @@ class ReviewController extends AbstractFOSRestController
             $companiesReviewed = $this->doctrine->getRepository(Review::class)->findDifferentCompaniesWithUsers($usersWhoReviewed, $data['company_id']);
 
             if ($companiesReviewed) {
-                return array('status' => true, 'data' => $companiesReviewed);
+                return array('status' => Response::HTTP_OK, 'data' => $companiesReviewed);
             } else {
-                return array('status' => false, 'data' => 'Company not found');
+                return array('status' => Response::HTTP_NO_CONTENT, 'data' => ['msg' => 'Company not found']);
             }
         } else
-            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_NO_CONTENT));
+            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_BAD_REQUEST));
     }
 }

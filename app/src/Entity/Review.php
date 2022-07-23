@@ -319,19 +319,22 @@ class Review
     {
         $reviews = Review::getAllReviewsFromCompany($companyId, $reviewRepository);
 
-        foreach ($reviews as $key => $review) {
-            if ($key == 0) {
-                $lowestRating = Review::getAvgRating($reviews[$key]);
-                $highestRating = Review::getAvgRating($reviews[$key]);
+        if ($reviews) {
+            foreach ($reviews as $key => $review) {
+                if ($key == 0) {
+                    $lowestRating = Review::getAvgRating($reviews[$key]);
+                    $highestRating = Review::getAvgRating($reviews[$key]);
+                }
+                if ($key != 0) {
+                    $aux = Review::getAvgRating($review);
+                    if ($aux < $lowestRating)
+                        $lowestRating = $aux;
+                    if ($aux > $highestRating)
+                        $highestRating = $aux;
+                }
             }
-            if ($key != 0) {
-                $aux = Review::getAvgRating($review);
-                if ($aux < $lowestRating)
-                    $lowestRating = $aux;
-                if ($aux > $highestRating)
-                    $highestRating = $aux;
-            }
+            return array('lowestRating' => $lowestRating, 'highestRating' => $highestRating);
         }
-        return array('lowestRating' => $lowestRating, 'highestRating' => $highestRating);
+        return null;
     }
 }
