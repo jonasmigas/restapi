@@ -46,3 +46,6 @@ with collection file "Test API.postman_collection"
 ### Requirements
 requirements 1 and 2 done
 enhancement 3 and 4 
+
+### Note
+It will take a little bit, after starting docker, to be fully connected to start using the api. I would say, 1 minute approx...
