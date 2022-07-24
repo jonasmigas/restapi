@@ -43,23 +43,28 @@ class ReviewControllerTest extends TestCase
     {
         $client = new Client();
         $response = $client->post(
-            'http://localhost/api/submitreview',
+            'http://localhost/api/ratinghighlow',
             [
                 RequestOptions::JSON => [
-                    "title" => "Another Review",
-                    "user" => "1",
-                    "company" => "1",
-                    "culture" => "5",
-                    "management" => "2",
-                    "work_live_balance" => "5",
-                    "career_development" => "5",
-                    "pro" => "teste",
-                    "contra" => "sem contras",
-                    "suggestions" => "teste"
+                    "company_id" => "2",
                 ]
             ]
         );
-        $this->assertJsonResponse('submitReview', $response, Response::HTTP_CREATED);
+        $this->assertJsonResponse('ratinghighlow', $response, Response::HTTP_OK);
+    }
+
+    public function testUsersWhoReviewed()
+    {
+        $client = new Client();
+        $response = $client->post(
+            'http://localhost/api/userswhoreviewed',
+            [
+                RequestOptions::JSON => [
+                    "company_id" => "2",
+                ]
+            ]
+        );
+        $this->assertJsonResponse('userswhoreviewed', $response, Response::HTTP_OK);
     }
 
     protected function assertJsonResponse($endPoint, $response, $statusCode = 200)
