@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,5 +51,15 @@ class User
         $this->email = $email;
 
         return $this;
+    }
+
+    //verify if user exists
+    public static function verifyUser($userRepository, $userId)
+    {
+        $user = $userRepository->find($userId);
+        if (!$user) {
+            return false;
+        }
+        return $user;
     }
 }

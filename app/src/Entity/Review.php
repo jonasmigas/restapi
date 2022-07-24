@@ -24,8 +24,8 @@ class Review
      * @Assert\Length(
      *  min = 10,
      *  max = 200,
-     *  minMessage = "Your first name must be at least {{ limit }} characters long",
-     *  maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     *  minMessage = "The review title must be at least {{ limit }} characters long",
+     *  maxMessage = "The review title cannot be longer than {{ limit }} characters"
      * )
      */
     private $title;
@@ -45,7 +45,7 @@ class Review
      * @Assert\Range(
      *  min = 0,
      *  max = 5,
-     *  notInRangeMessage = "It must be between {{ min }} and {{ max }}",
+     *  notInRangeMessage = "Culture rating must be between {{ min }} and {{ max }}",
      * )
      */
     private $culture;
@@ -55,7 +55,7 @@ class Review
      * @Assert\Range(
      *  min = 0,
      *  max = 5,
-     *  notInRangeMessage = "It must be between {{ min }} and {{ max }}",
+     *  notInRangeMessage = "Management rating must be between {{ min }} and {{ max }}",
      * )
      */
     private $management;
@@ -65,7 +65,7 @@ class Review
      * @Assert\Range(
      *  min = 0,
      *  max = 5,
-     *  notInRangeMessage = "It must be between {{ min }} and {{ max }}",
+     *  notInRangeMessage = "Work_live_balance must be between {{ min }} and {{ max }}",
      * )
      */
     private $work_live_balance;
@@ -75,7 +75,7 @@ class Review
      * @Assert\Range(
      *  min = 0,
      *  max = 5,
-     *  notInRangeMessage = "It must be between {{ min }} and {{ max }}",
+     *  notInRangeMessage = "Career_development must be between {{ min }} and {{ max }}",
      * )
      */
     private $career_development;

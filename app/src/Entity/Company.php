@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -174,5 +175,15 @@ class Company
     {
         //update the company's average rating after a review of this same company is submitted
         $this->avg_rating = $this->avgRatingCompany($reviewRepository);
+    }
+
+    //verfy if company exists
+    public static function verifyCompany($companyRepository, $companyId)
+    {
+        $company = $companyRepository->find($companyId);
+        if (!$company) {
+            return false;
+        }
+        return $company;
     }
 }
