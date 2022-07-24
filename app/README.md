@@ -49,3 +49,4 @@ enhancement 3 and 4
 
 ### Note
 It will take a little bit, after starting docker, to be fully connected to start using the api. I would say, 1 minute approx...
+When message "ready to handle connections" appears, then the api is ready to run
