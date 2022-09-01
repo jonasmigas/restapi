@@ -25,9 +25,9 @@ This solution was built:
 - database script (mysql) -> restapi\docker\init\01.sql
 
 3 tables:
-	- company (company_id, name, city, country, industry, avg_rating) (created the avg_rating field in order to get the average rating of a company -> it's done during the iserts of data.json file and whenever a review is submited, the average rating of that company is updated as well. it's easier to get the top 10 list of recommended companies)
-	- user (user_id, email)
-	- review (review_id, title, user (foreign key of user_id), company (foreign key of company_id), culture, management, work_live_balance, career_development, pro, contra, suggestions)
+- company (company_id, name, city, country, industry, avg_rating) (created the avg_rating field in order to get the average rating of a company -> it's done during the iserts of data.json file and whenever a review is submited, the average rating of that company is updated as well. it's easier to get the top 10 list of recommended companies)
+- user (user_id, email)
+- review (review_id, title, user (foreign key of user_id), company (foreign key of company_id), culture, management, work_live_balance, career_development, pro, contra, suggestions)
   
  (assuming that the user submitting the review and the company being reviewed, are already in the db (company and user) at the moment that the data is being sent, hence using the user_id and company_id)   
 
